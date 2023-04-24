@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mx-auto mt-4">
+    <section>
+        <h4 class="text-center pb-4 text-2xl font-bold dark:text-white"
+        >Daftar Terapis
+    </h4>
+        <div class="py-4">
+            <div class="grid sm:grid-cols-1 md:grid-cols-4 gap-4">
+
+                <div class="text-center p-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                    <h4 class="text-lg font-bold dark:text-white">
+                        {{ ft|length }}
+                        <span class="status bg-yellow-100 text-yellow-800 mx-2 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
+                        >Fisioterapis</span>
+                    </h4> 
+                </div>
+
+                <div class="text-center p-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                    <h4 class="text-lg font-bold dark:text-white">
+                        {{ ot|length }} 
+                        <span class="status bg-green-100 text-green-800 mx-2 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
+                        >Terapis Okupasi</span>
+                    </h4> 
+                </div>
+
+                <div class="text-center p-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                    <h4 class="text-lg font-bold dark:text-white">
+                        {{ tw|length }} 
+                        <span class="bg-purple-100 text-purple-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300"
+                        >Terapis Wicara</span>
+                    </h4> 
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <br>
+    <section>
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+            
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            ID
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            <div class="flex items-center">
+                                Nama
+                            </div>
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            <div class="flex items-center">
+                                Spesialisasi
+                            </div>
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            <div class="flex items-center">
+                                Jadwal
+                            </div>
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            <span class="sr-only">Aksi</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for t in terapisAll %}
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        <td class="px-6 py-4">
+                            {{ t.id }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ t.name }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ t.spesialisasi }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ t.jadwal_hari }}
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                Ubah jadwal
+                            </a>
+                        </td>
+                        
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+        </div>
+        <nav class="flex items-center justify-between pt-4" aria-label="Table navigation">
+            <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Showing <span class="font-semibold text-gray-900 dark:text-white"
+                >{{ terapis|length }}</span> of <span class="font-semibold text-gray-900 dark:text-white"
+                >{{ terapisAll|length }}</span></span>
+            <ul class="inline-flex items-center -space-x-px">
+                {% if kunjungan.has_previous %}
+                <li>
+                    <a href="{% url 'daftar:daftarTerapis' %}?page={{terapisAll.next_page_number}}" class="block px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                        <span class="sr-only">Previous</span>
+                        <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                    </a>
+                </li>
+                {% endif %}
+                {% if kunjungan.has_next %}
+                <li>
+                    <a href="{% url 'daftar:daftarTerapis' %}?page={{terapisAll.previous_page_number}}" class="block px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                        <span class="sr-only">Next</span>
+                        <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </section>
+</div>
+
+{% endblock content %}

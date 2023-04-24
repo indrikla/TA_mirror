@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="container mx-auto mt-4">
+    <section>
+        <div class="flex items-center gap-4 pb-6">
+            <div>
+                <a href="" onclick="window.history.go(-1); return false;" type="button" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-2 mr-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+                    <
+                </a>
+            </div>
+            <div>
+                <h4 class="text-2xl dark:text-white">
+                    <b> Rekam Medis Kunjungan: </b> {{ pasien.name }} — {{ kunjunganDetail.tanggal_terapi }} {{ kunjunganDetail.slot_waktu }}
+                </h4>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 mb-6">
+            <div class="flex flex-col gap-8">
+                <div>
+                    <h5 class="text-xl font-bold mb-2">
+                        Evaluasi Terapi </h5>
+                    <div class="mb-1">
+                        <span class="block mb-2 text-sm font-medium text-gray-500 dark:text-white">
+                            Evaluasi terapi berisikan perubahan kondisi pasien tiap sesi terapi.
+                        </span>
+                        <p>{{ kunjunganDetail.evaluasi_terapi }}</p>
+                    </div>
+                </div>
+                <div>
+                    <h5 class="text-xl font-bold mb-2">
+                        Catatan Terapi </h5>
+                    <div class="mb-1">
+                        <span class="block mb-2 text-sm font-medium text-gray-500 dark:text-white">
+                            Catatan Terapi berisikan aktivitas yang perlu dilakukan oleh pasien di luar sesi terapi.
+                        </span>
+                        <p>{{ kunjunganDetail.catatan_terapi }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock content %}

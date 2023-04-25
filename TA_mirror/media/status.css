@@ -1,0 +1,39 @@
+.status {
+  @apply inline-block rounded-full py-0 px-3 text-sm;
+}
+
+.status-dc {
+  @apply bg-red10 text-red80;
+}
+
+.status-ua {
+  @apply bg-teal10 text-teal80;
+}
+
+.status-ir {
+  @apply bg-pink10 text-pink80;
+}
+
+.status-ed {
+  @apply inline-block whitespace-nowrap rounded-full py-0 px-3 bg-indigo10 text-indigo80;
+}
+
+.status-cd {
+  @apply inline-block whitespace-nowrap rounded-full py-0 px-3 bg-orange10 text-orange80;
+}
+
+.status-ie {
+  @apply inline-block rounded-full py-0 px-3 bg-blue10 text-blue80;
+}
+
+.status-rp {
+  @apply inline-block rounded-full py-0 px-3 bg-green10 text-green80;
+}
+
+.status-ar {
+  @apply inline-block rounded-full py-0 px-3 bg-gray5 text-gray70;
+}
+
+.status-ot {
+  @apply bg-indigo-900 text-white;
+}

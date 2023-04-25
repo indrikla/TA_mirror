@@ -11,16 +11,7 @@ from django.core.files.storage import FileSystemStorage
 
 
 def editDataDiri(request):
-    pasien = Pasien.objects.filter(user=request.user)
-    
-    if request.method == 'POST':
-        pass
-    else:
-        pass
-    context = {
-        'pasien' : pasien[0]
-    }
-    return render(request, "edit-data-diri.html", context)
+    pass
 
 def updateStatusKunjungan(request, idKunjungan, toBeStatus):
     '''
@@ -54,6 +45,7 @@ def rekamMedisView(request, idPasien):
         terapis = Terapis.objects.get(user=request.user)
         if terapis in rekamMedis.terapis.all():
             if request.method == 'POST':
+                
                 
                 fs = FileSystemStorage()
                 file_Asesmen = request.FILES.get('lampiran')

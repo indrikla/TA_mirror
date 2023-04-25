@@ -2,10 +2,12 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from daftar_terapi.models import *
 from account.models import *
-from rekam_medis.models import RekamMedis
+from rekam_medis.models import *
 from django.db.models import Q
 from django.utils.timezone import localtime, now
 from django.views.decorators.csrf import csrf_exempt
+from datetime import date, datetime
+from django.core.files.storage import FileSystemStorage
 
 
 def editDataDiri(request):
@@ -40,13 +42,39 @@ def updateStatusKunjungan(request, idKunjungan, toBeStatus):
 def rekamMedisView(request, idPasien):
     message = ""
     kunjunganAll = []
+    list_asesmen = []
     pasien = Pasien.objects.get(id=idPasien)
     rekamMedis = RekamMedis.objects.get(pasien=pasien)
     
+    if Asesmen.objects.filter(pasien=pasien).first() != None:
+            for asesmen in Asesmen.objects.filter(pasien=pasien):
+                list_asesmen.append(asesmen)
+                
     if request.user.role == 'Terapis':
         terapis = Terapis.objects.get(user=request.user)
         if terapis in rekamMedis.terapis.all():
-            pass
+            if request.method == 'POST':
+                
+                fs = FileSystemStorage()
+                file_Asesmen = request.FILES.get('lampiran')
+                filename = fs.save(file_Asesmen.name, file_Asesmen)
+                existing_file = Asesmen.objects.filter(pasien=pasien, tipe=request.POST.get('tipe'))
+                if existing_file:     
+                    existing_file.update(lampiran=file_Asesmen, tanggal_dibuat=datetime.now())
+                else:
+                    list_asesmen.append(
+                        Asesmen.objects.create(
+                            pasien=pasien,
+                            terapis=terapis,
+                            tipe=request.POST.get('tipe'),
+                            lampiran=file_Asesmen, 
+                            tanggal_dibuat=datetime.now(),
+                        )
+                    )
+                
+                return redirect('dasbor:rekamMedisView', idPasien=idPasien)
+            else:
+                pass
         else:
             message = "Kamu tidak memiliki akses ke halaman ini."
             
@@ -65,6 +93,7 @@ def rekamMedisView(request, idPasien):
         'kunjunganAll' : kunjunganAll,
         'message' : message,
         'rekamMedis' : rekamMedis,
+        'list_asesmen' : list_asesmen,
     }
     return render(request, "list-rekam-medis.html", context)
 
@@ -146,17 +175,23 @@ def dasbor(request):
         return render(request, "dasbor-admin.html", context)
     
     elif request.user.role == 'Pasien':
+        list_asesmen = []
         pasien = Pasien.objects.get(user=request.user)
         rekamMedis = RekamMedis.objects.get(pasien=pasien)
         kunjunganAll = Appointment.objects.filter(
                 Q(status=1) | Q(status=0),
                 pasien=pasien,
         )
+        if Asesmen.objects.filter(pasien=pasien).first() != None:
+            for asesmen in Asesmen.objects.filter(pasien=pasien):
+                list_asesmen.append(asesmen)
+                
         context = {
             'pasien' : pasien,
             'kunjunganAll' : kunjunganAll,
             'message' : message,
             'rekamMedis' : rekamMedis,
+            'list_asesmen' : list_asesmen,
         }
         return render(request, "dasbor-pasien.html", context)
     

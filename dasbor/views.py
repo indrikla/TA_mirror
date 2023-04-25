@@ -9,6 +9,9 @@ from django.views.decorators.csrf import csrf_exempt
 from datetime import date, datetime
 from django.core.files.storage import FileSystemStorage
 
+def landingPage(request):
+    return render(request, 'landing-page.html')
+
 
 def editDataDiri(request):
     pass
@@ -36,6 +39,11 @@ def rekamMedisView(request, idPasien):
     list_asesmen = []
     pasien = Pasien.objects.get(id=idPasien)
     rekamMedis = RekamMedis.objects.get(pasien=pasien)
+    kunjunganAll = Appointment.objects.filter(
+                Q(status=1) | Q(status=0),
+                pasien=pasien,
+                tanggal_terapi__gte=localtime(now()),
+    )
     
     if Asesmen.objects.filter(pasien=pasien).first() != None:
             for asesmen in Asesmen.objects.filter(pasien=pasien):
@@ -45,7 +53,6 @@ def rekamMedisView(request, idPasien):
         terapis = Terapis.objects.get(user=request.user)
         if terapis in rekamMedis.terapis.all():
             if request.method == 'POST':
-                
                 
                 fs = FileSystemStorage()
                 file_Asesmen = request.FILES.get('lampiran')
@@ -73,10 +80,6 @@ def rekamMedisView(request, idPasien):
     elif request.user.role == 'Pasien':
         if (idPasien == request.user.pasien.id):
             pasien = Pasien.objects.get(user=request.user)
-            kunjunganAll = Appointment.objects.filter(
-                Q(status=1) | Q(status=0),
-                pasien=pasien,
-            )
         else:
             message = "Kamu tidak memiliki akses ke halaman ini."
         
@@ -173,6 +176,7 @@ def dasbor(request):
         kunjunganAll = Appointment.objects.filter(
                 Q(status=1) | Q(status=0),
                 pasien=pasien,
+                tanggal_terapi__gte=localtime(now()),
         )
         if Asesmen.objects.filter(pasien=pasien).first() != None:
             for asesmen in Asesmen.objects.filter(pasien=pasien):

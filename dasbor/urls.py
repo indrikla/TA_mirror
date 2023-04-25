@@ -7,5 +7,5 @@ urlpatterns = [
     path('update/<int:idKunjungan>/<int:toBeStatus>', updateStatusKunjungan, name='updateStatusKunjungan'),
     path('rme/<int:idPasien>', rekamMedisView, name='rekamMedisView'),
     path('rme/<int:idPasien>/detail-<int:idKunjungan>', detailRekamMedis, name='detailRekamMedis'),
-    path('data-diri/edit', editDataDiri, name='editDataDiri'),
+    path('landingPage', landingPage, name='landingPage'),
 ]

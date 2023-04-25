@@ -108,8 +108,8 @@
                     <div class="hidden w-full md:block md:w-auto" id="navbar-multi-level">
                         <ul class="align-middle items-center flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                             <li>
-                                <a href="#" type="button" class="py-2 px-4 text-sm font-medium text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg dark:hover:text-white dark:hover:bg-gray-700">
-                                    <i class="fa-fw fa-solid fa-plus"></i> Daftar terapi
+                                <a {% if '/daftar-terapi/' in request.path %} style="display: none;" {% endif %} href="#" type="button" class="py-2 px-4 text-sm font-medium text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg dark:hover:text-white dark:hover:bg-gray-700">
+                                    <i class="fa-fw fa-solid fa-plus"></i> Daftar Terapi
                                 </a>
                             </li>
                             <li>

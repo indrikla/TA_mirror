@@ -46,6 +46,7 @@ class Appointment(models.Model):
     status = models.IntegerField("Status", choices=STATUS_CHOICES)
     catatan_terapis = models.CharField("Catatan Terapis", max_length=500, blank=True, default="")
     alasan_batal = models.CharField("Alasan Batal", max_length=250, blank=True, default="")
+    alasan_tolak = models.CharField("Alasan Tolak", max_length=250, blank=True, default="")
     pemeriksaan = models.TextField("Pemeriksaan", max_length=500, blank=True, default="")
     tindakan = models.TextField("Tindakan", max_length=500, blank=True, default="")
     evaluasi_terapi = models.TextField("Evaluasi Terapi", max_length=500, blank=True, default="")
